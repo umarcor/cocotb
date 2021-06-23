@@ -29,9 +29,9 @@ jobs:
       with:
         python-version: 3.8
 
-    - run: python -m pip install --progress-bar off tox
+    - run: pip install --no-build-isolation .
 
-    - run: python -m tox -e py38
+    - run: make SIM=ghdl TOPLEVEL_LANG=vhdl
 
 
   win:
@@ -40,14 +40,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { sim: verilator, pkg: verilator }
-          - { sim: icarus, pkg: iverilog }
-          - { sim: ghdl, pkg: ghdl-llvm }
+          - { lang: verilog, sim: verilator, pkg: verilator }
+          - { lang: verilog, sim: icarus, pkg: iverilog }
+          - { lang: vhdl, sim: ghdl, pkg: ghdl-llvm }
     defaults:
       run:
         shell: msys2 {0}
-    env:
-      SIM: ${{ matrix.sim }}
     steps:
 
     - uses: msys2/setup-msys2@v2
@@ -59,13 +57,14 @@ jobs:
             make
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-python-pip
+            mingw-w64-x86_64-python-wheel
             mingw-w64-x86_64-${{ matrix.pkg }}
 
     - uses: actions/checkout@v2
 
-    - run: python -m pip install --progress-bar off tox
+    - run: pip install --no-build-isolation .
 
-    - run: tox -e py38
+    - run: make SIM=${{ matrix.sim }} TOPLEVEL_LANG=${{ matrix.lang }}
 
 
   win-ghdl:
@@ -84,6 +83,7 @@ jobs:
             make
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-python-pip
+            mingw-w64-x86_64-python-wheel
 
     - uses: actions/checkout@v2
 
@@ -91,9 +91,9 @@ jobs:
       with:
         backend: llvm
 
-    - run: python -m pip install --progress-bar off tox
+    - run: pip install --no-build-isolation .
 
-    - run: tox -e py38
+    - run: make SIM=ghdl TOPLEVEL_LANG=vhdl
 
 
   win-docs:
