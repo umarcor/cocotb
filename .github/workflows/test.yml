@@ -57,6 +57,7 @@ jobs:
             make
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-python-pip
+            mingw-w64-x86_64-python-pytest
             mingw-w64-x86_64-python-wheel
             mingw-w64-x86_64-${{ matrix.pkg }}
 
@@ -83,6 +84,7 @@ jobs:
             make
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-python-pip
+            mingw-w64-x86_64-python-pytest
             mingw-w64-x86_64-python-wheel
 
     - uses: actions/checkout@v2
