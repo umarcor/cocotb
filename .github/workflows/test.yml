@@ -110,6 +110,7 @@ jobs:
         install: |
             mingw-w64-x86_64-doxygen
             mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-python-cairo
             mingw-w64-x86_64-python-pip
             mingw-w64-x86_64-python-sphinx
 
